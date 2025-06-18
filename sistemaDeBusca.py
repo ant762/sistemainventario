@@ -24,3 +24,9 @@ def buscarItens(termo):
 
 termoBusca = input("Digite o termo de busca: ")
 resultados = buscarItens(termoBusca)
+
+if resultados:
+    for item in resultados:
+        print(f'ID: {item["id"]}, Nome: {item["nome"]}, Categoria: {item["quantidade"]}, Tamanho: {item["tamanho"]}')
+else:
+    print("Nenhum item encontrado.")

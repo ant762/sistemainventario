@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "nome": "Camiseta",
+        "categoria": "a",
+        "quantidade": 150,
+        "dataEntrada": "18-06-2025"
+    },
+    {
+        "id": 2,
+        "nome": "Calça",
+        "categoria": "b",
+        "quantidade": 120,
+        "dataEntrada": "10-06-2025"
+    },
+    {
+        "id": 2,
+        "nome": "Chapeu",
+        "categoria": "c",
+        "quantidade": 90,
+        "dataEntrada": "01-06-2025"
+    }
+]
+
+const idParaRemover = 2;
+const novoInventario = inventario.filter(item => item.id !== idParaRemover);
+
+console.log(novoInventario);
+
+const fs = require('fs');
+
+const itens = JSON.parse(fs.readFileSync('inventario.json', 'utf8'));
+const atualizado = itens.filter(item => item.id !== idParaRemover);
+fs.writeFileSync('inventario.json', JSON.stringify(atualizado, null, 2), 'utf8');

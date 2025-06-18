@@ -1,1 +1,4 @@
-print("Hello World")
+import json
+
+estoqueLimite = 500
+

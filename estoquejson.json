@@ -1,0 +1,13 @@
+[
+    {
+      "nome": "Camiseta",
+      "quantidade": 150,
+      "tamanho": "M"
+    },
+
+    {
+    "nome": "Calça",
+    "quantidade": 150,
+    "tamanho": "G"
+    }
+]

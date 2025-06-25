@@ -2,9 +2,11 @@ import json
 
 estoquejson = [
     {
-      "nome": "Camiseta",
-      "quantidade": 150,
-      "tamanho": "M"
+      "id": "496739",
+      "nome": " camisa",
+      "categoria": "M",
+      "quantidade": "M",
+      "dataEntrada": "18/06/2025"
     },
 
     {
@@ -14,19 +16,29 @@ estoquejson = [
     }
 ]
 
-itens = json.loads(estoquejson)
-
-
 def buscarItens(termo):
     termo = termo.lower()
-    resultados = [item for item in itens if termo in item["ID"].lower() or item["nome"].lower() or item["categoria"].lower() or termo in item["quantidade"].lower() or termo in item["tamanho"].lower() or termo in item["data"].lower()]
+    resultados = []
+
+    for item in estoquejson:
+
+        for chave in item:
+            valor = str(item[chave]).lower()
+            if termo in valor:
+                resultados.append(item)
+                break  
+
     return resultados
+
 
 termoBusca = input("Digite o termo de busca: ")
 resultados = buscarItens(termoBusca)
 
+
 if resultados:
     for item in resultados:
-        print(f'ID: {item["id"]}, Nome: {item["nome"]}, Categoria: {item["categoria"]}, Quantidade: {item["quantidade"]}, Tamanho: {item["tamanho"]}, Data: {item["data"]}')
+        print("\nItem encontrado:")
+        for chave, valor in item.items():
+            print(f"{chave.capitalize()}: {valor}")
 else:
     print("Nenhum item encontrado.")

@@ -73,7 +73,7 @@ while True:
     print("1 - Adicionar Produto")
     print("2 - Listar Produtos")
     print("3 - Remover Produto")
-    print("0 - Sair")
+    print("4 - Sair")
 
     try:
         opcao = int(input("Escolha uma opção: "))
@@ -97,8 +97,8 @@ while True:
         listarProdutos()
 
     elif opcao == 3:
-        id_remover = input("Digite o ID do produto a remover: ")
-        removerProduto(id_remover)
+        idRemover = input("Digite o ID do produto a remover: ")
+        removerProduto(idRemover)
 
     elif opcao == 0:
         print("Encerrando o programa.")

@@ -71,9 +71,9 @@ def listarProdutos():
         print("Estoque vazio.")
         return
 
-    print("\n📦 Produtos no Estoque:")
+    print("\nProdutos no Estoque:")
     for p in produtos:
-        print(f"🆔 {p['id']} | {p['nome']} | Categoria: {p['categoria']} | Quantidade: {p['quantidade']} | Entrada: {p['dataEntrada']}")
+        print(f"ID {p['id']} | {p['nome']} | Categoria: {p['categoria']} | Quantidade: {p['quantidade']} | Entrada: {p['dataEntrada']}")
 
 while True:
     print("\n=== SISTEMA DE INVENTÁRIO ===")

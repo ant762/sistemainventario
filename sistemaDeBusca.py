@@ -19,7 +19,7 @@ itens = json.loads(estoquejson)
 
 def buscarItens(termo):
     termo = termo.lower()
-    resultados = [item for item in itens if termo in item["nome"].lower() or termo in item["quantidade"].lower() or termo in item["tamanho"].lower()]
+    resultados = [item for item in itens if termo in item["ID"].lower() or item["nome"].lower() or item["categoria"].lower() or termo in item["quantidade"].lower() or termo in item["tamanho"].lower() or termo in item["data"].lower()]
     return resultados
 
 termoBusca = input("Digite o termo de busca: ")
@@ -27,6 +27,6 @@ resultados = buscarItens(termoBusca)
 
 if resultados:
     for item in resultados:
-        print(f'ID: {item["id"]}, Nome: {item["nome"]}, Categoria: {item["quantidade"]}, Tamanho: {item["tamanho"]}')
+        print(f'ID: {item["id"]}, Nome: {item["nome"]}, Categoria: {item["categoria"]}, Quantidade: {item["quantidade"]}, Tamanho: {item["tamanho"]}, Data: {item["data"]}')
 else:
     print("Nenhum item encontrado.")

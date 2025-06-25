@@ -7,13 +7,6 @@
         "dataEntrada": "18/06/2025"
     },
     {
-        "id": 2,
-        "nome": "Calça",
-        "categoria": "calça",
-        "quantidade": 150,
-        "dataEntrada": "20/06/2025"
-    },
-    {
         "id": 3,
         "nome": "camisa",
         "categoria": "camisa",

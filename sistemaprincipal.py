@@ -8,7 +8,6 @@ def carregarProdutos():
     try:
         with open(arquivoEstoque, "r", encoding="utf-8") as f:
             produtos = json.load(f)
-            # Garante que produtos seja uma lista
             if isinstance(produtos, list):
                 return produtos
             else:
@@ -41,7 +40,7 @@ def adicionarProduto(id, nome, dataEntrada, categoria, quantidade):
         print("Data inválida. Use o formato dd/mm/aaaa.")
         return False
 
-    novo_produto = {
+    novoProduto = {
         "id": str(id),
         "nome": nome.strip(),
         "categoria": categoria.strip(),
@@ -49,21 +48,21 @@ def adicionarProduto(id, nome, dataEntrada, categoria, quantidade):
         "dataEntrada": dataEntrada
     }
 
-    produtos.append(novo_produto)
+    produtos.append(novoProduto)
     salvarProdutos(produtos)
-    print(f"✅ Produto '{nome}' adicionado com sucesso!")
+    print(f"Produto '{nome}' adicionado com sucesso!")
     return True
 
 def removerProduto(id):
     produtos = carregarProdutos()
-    novos_produtos = [p for p in produtos if str(p["id"]) != str(id)]
+    novosProdutos = [p for p in produtos if str(p["id"]) != str(id)]
 
-    if len(produtos) == len(novos_produtos):
+    if len(produtos) == len(novosProdutos):
         print(f"Nenhum produto com ID '{id}' foi encontrado.")
         return False
 
-    salvarProdutos(novos_produtos)
-    print(f"✅ Produto com ID '{id}' removido com sucesso.")
+    salvarProdutos(novosProdutos)
+    print(f"Produto com ID '{id}' removido com sucesso.")
     return True
 
 def listarProdutos():
@@ -76,7 +75,6 @@ def listarProdutos():
     for p in produtos:
         print(f"🆔 {p['id']} | {p['nome']} | Categoria: {p['categoria']} | Quantidade: {p['quantidade']} | Entrada: {p['dataEntrada']}")
 
-# Interface
 while True:
     print("\n=== SISTEMA DE INVENTÁRIO ===")
     print("1 - Adicionar Produto")
@@ -114,7 +112,7 @@ while True:
         idRemover = input("Digite o ID do produto a remover: ")
         removerProduto(idRemover)
 
-    elif opcao == 0:
+    elif opcao == 4:
         print("Encerrando o programa.")
         break
 

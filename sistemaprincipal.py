@@ -1,75 +1,84 @@
 import json
+from datetime import datetime
 
 estoqueLimite = 500
-
 arquivoEstoque = "estoque.json"
-
 
 def carregarProdutos():
     try:
-        with open(arquivoEstoque, "r") as f:
-            return json.load(f)
+        with open(arquivoEstoque, "r", encoding="utf-8") as f:
+            produtos = json.load(f)
+            # Garante que produtos seja uma lista
+            if isinstance(produtos, list):
+                return produtos
+            else:
+                return []
     except FileNotFoundError:
-        return ["Não há estoque."]
-
-
-def removerProduto(id):
-    produtos = carregarProdutos()
-
-    novos_produtos = [p for p in produtos if p["ID"] != id]
-
-    if len(produtos) == len(novos_produtos):
-        print(f"Nenhum produto com ID {id} foi encontrado.")
-        return False
-
-    salvarProdutos(novos_produtos)
-    print(f"Produto com ID {id} removido com sucesso.")
-    return True
-
+        return []
 
 def salvarProdutos(produtos):
-    with open(arquivoEstoque, "w") as f:
-        json.dump(produtos, f, indent=4)
-
+    with open(arquivoEstoque, "w", encoding="utf-8") as f:
+        json.dump(produtos, f, indent=4, ensure_ascii=False)
 
 def totalEstoque(produtos):
-    return sum(produto["quantidade"] for produto in produtos)
+    return sum(produto.get("quantidade", 0) for produto in produtos)
 
-
-def adicionarProduto(id, nome, data, categoria, quantidade, dataEntrada):
+def adicionarProduto(id, nome, dataEntrada, categoria, quantidade):
     produtos = carregarProdutos()
-    
-    if totalEstoque(produtos) + quantidade > estoqueLimite:
-        print("Erro: estoque limite ultrapassado, não é possível adicionar mais produtos.")
-        return False
 
-    # Verificação de id
     for p in produtos:
-        if p["id"] == id:
+        if str(p["id"]) == str(id):
             print("Erro: ID já existe.")
             return False
-    
+
+    if totalEstoque(produtos) + quantidade > estoqueLimite:
+        print("Erro: estoque limite ultrapassado. Não é possível adicionar mais produtos.")
+        return False
+
+    try:
+        datetime.strptime(dataEntrada, "%d/%m/%Y")
+    except ValueError:
+        print("Data inválida. Use o formato dd/mm/aaaa.")
+        return False
+
     novo_produto = {
-        "ID": id,
-        "nome": nome,
-        "categoria": categoria,
+        "id": str(id),
+        "nome": nome.strip(),
+        "categoria": categoria.strip(),
         "quantidade": quantidade,
-        "data": data,
+        "dataEntrada": dataEntrada
     }
 
     produtos.append(novo_produto)
     salvarProdutos(produtos)
-    print(f"Produto '{nome}' adicionado com sucesso!")
+    print(f"✅ Produto '{nome}' adicionado com sucesso!")
+    return True
+
+def removerProduto(id):
+    produtos = carregarProdutos()
+    novos_produtos = [p for p in produtos if str(p["id"]) != str(id)]
+
+    if len(produtos) == len(novos_produtos):
+        print(f"Nenhum produto com ID '{id}' foi encontrado.")
+        return False
+
+    salvarProdutos(novos_produtos)
+    print(f"✅ Produto com ID '{id}' removido com sucesso.")
     return True
 
 def listarProdutos():
     produtos = carregarProdutos()
+    if not produtos:
+        print("Estoque vazio.")
+        return
+
+    print("\n📦 Produtos no Estoque:")
     for p in produtos:
-        print(f"{p['id']}: {p['nome']} - Categoria: {p['categoria']} - {p['quantidade']} unidades - data de entrada: {p['data']}")
+        print(f"🆔 {p['id']} | {p['nome']} | Categoria: {p['categoria']} | Quantidade: {p['quantidade']} | Entrada: {p['dataEntrada']}")
 
-
+# Interface
 while True:
-    print("\nSISTEMA DE INVENTÁRIO")
+    print("\n=== SISTEMA DE INVENTÁRIO ===")
     print("1 - Adicionar Produto")
     print("2 - Listar Produtos")
     print("3 - Remover Produto")
@@ -84,14 +93,19 @@ while True:
     if opcao == 1:
         id = input("ID: ")
         nome = input("Nome: ")
-        data = input("Data de entrada: ")
         categoria = input("Categoria: ")
+        dataEntrada = input("Data de entrada (dd/mm/aaaa): ")
+
         try:
             quantidade = int(input("Quantidade: "))
+            if quantidade < 0:
+                print("Quantidade não pode ser negativa.")
+                continue
         except ValueError:
             print("Quantidade inválida.")
             continue
-        adicionarProduto(id, nome, data, categoria, quantidade, data)
+
+        adicionarProduto(id, nome, dataEntrada, categoria, quantidade)
 
     elif opcao == 2:
         listarProdutos()

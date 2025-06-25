@@ -33,14 +33,14 @@ def adicionarItem():
     }
 
     try:
-        with open(estoque , 'r', encoding='utf-8') as estoque:
-            inventario = json.load(estoque )
+        with open("estoque.json" , 'r', encoding='utf-8') as estoque:
+            inventario = json.load(estoque)
     except FileNotFoundError:
         inventario = []
 
     inventario.append(novoItem)
 
-    with open(estoque , 'w', encoding='utf-8') as estoque:
+    with open("estoque.json", 'w', encoding='utf-8') as estoque:
         json.dump(inventario, estoque , indent=4)
 
     print(f"\n Item '{nome}' foi adicionado com sucesso no estoque '{estoque }'!")
